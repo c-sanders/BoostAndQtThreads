@@ -94,8 +94,9 @@ then it will use this rule to update it.
 
 When a particular target file is passed to this rule, the first thing that the make utility does, is work out which file is the dependency for the target
 file. It does this by consulting the relevant vpath directive, i.e. ../../include in this case. make then searches through the directories which are listed
-by the vpath directive, to see if it can find a file which will act as the dependency for the target file. If a dependency file is found, and it is found to
-be newer than the target file - or if the target file doesn't yet exist, then this rule will be invoked in order to update the target file.
+in the vpath directive, to see if it can find a file which will act as the dependency file for the target file. If a dependency file is found, and it is found to
+be newer than the target file - or if the target file doesn't yet exist, then this suffix rule will be invoked - using the target and dependency files just
+discussed, in order to update the target file.
 
 make doesn't know how to compile .moc files, so once the .moc file has been built, a copy is then made of it - but with a moc_ filename prefix and a .cpp
 filename extension instead of a .moc filename extension. For example;
