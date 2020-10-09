@@ -79,7 +79,7 @@ Of interest is the file ./src/moc/Makefile.am which is listed below;
 		@echo "top_srcdir           = ${top_srcdir}"
 		@echo "builddir             = ${builddir}"
 
-In particular, pay attention to the one and only suffix rule in this Makefile - that is;
+In particular, pay attention to the one and only suffix rule in this Makefile; that is;
 
 	.hpp.moc :
 
@@ -89,7 +89,10 @@ In particular, pay attention to the one and only suffix rule in this Makefile - 
 		${MOC} ${boost_and_qt_threads_INCLUDES} $< -o $@
 		destFile=$$(echo $@ | sed 's/^\(.*\)\.moc$$/\1.cpp/') && cp -vp $@ moc_$${destFile}
 
-This suffix rule tells make how to build Qt moc (.moc) files from the corresponding .hpp files. If a particular .moc file is found by make, to be out of
-date, then it will use this rule to update it.
-#
-# make will use the relevant vpath directive to find the correct dependency for this rule.
+This suffix rule tells make how to build a Qt moc (.moc) files from the corresponding .hpp file. If make finds that a particular .moc file is out of date,
+then it will use this rule to update it.
+
+First of all, given the target file which is passed to this rule, make will need to work out which file is it's dependency. It does this by consulting
+the relevant vpath directive, i.e. ../../include in this case. If the dependency file is found to be newer than the target file - or if the target file
+doesn't yet exist, then this rule will be invoked in order to update the target file.
+
