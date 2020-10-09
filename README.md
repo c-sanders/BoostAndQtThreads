@@ -92,6 +92,8 @@ In particular, pay attention to the one and only suffix rule in this Makefile; t
 		${MOC} ${boost_and_qt_threads_INCLUDES} $< -o $@
 		destFile=$$(echo $@ | sed 's/^\(.*\)\.moc$$/\1.cpp/') && cp -vp $@ moc_$${destFile}
 
+- What it does.
+
 This suffix rule tells make how to build a Qt moc (.moc) files from the corresponding .hpp file. If make finds that a particular .moc file is out of date,
 then it will use this rule to update it.
 
