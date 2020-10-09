@@ -4,9 +4,9 @@ Basic C++ threading example using Boost and Qt.
 Introduction
 ------------
 
-This package attempts to illustrate the following concepts;
+The main aim of this package is to attempt to illustrate the following concepts;
 
-  - How Makefiles can be written in order to build Qt moc files.
+  - How to write Makefiles so that the can build Qt moc files.
 
   - How to create threads in C++ using both the Boost and Qt libraries.
 
@@ -92,7 +92,13 @@ In particular, pay attention to the one and only suffix rule in this Makefile; t
 This suffix rule tells make how to build a Qt moc (.moc) files from the corresponding .hpp file. If make finds that a particular .moc file is out of date,
 then it will use this rule to update it.
 
-First of all, given the target file which is passed to this rule, make will need to work out which file is it's dependency. It does this by consulting
-the relevant vpath directive, i.e. ../../include in this case. If the dependency file is found to be newer than the target file - or if the target file
-doesn't yet exist, then this rule will be invoked in order to update the target file.
+When a particular target file is passed to this rule, the first thing the make utility needs to do, is to work out which file is the dependency for the target
+file. It does this by consulting the relevant vpath directive, i.e. ../../include in this case. If the dependency file is found to be newer than the target
+file - or if the target file doesn't yet exist, then this rule will be invoked in order to update the target file.
 
+make doesn't know how to compile .moc files, so once the .moc file has been built, a copy is then made of it - but with a moc_ filename prefix and a .cpp
+filename extension instead of a .moc filename extension. For example;
+
+	TestClass.moc -- becomes --> moc_TestClass.cpp
+
+These two files are effectively created at the same time.
