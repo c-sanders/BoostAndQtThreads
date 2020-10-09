@@ -6,7 +6,7 @@ Introduction
 
 The main aim of this package is to attempt to illustrate the following concepts;
 
-  - How to write Makefiles so that the can build Qt moc files.
+  - How to write Makefiles so that they can build Qt moc files.
 
   - How to create threads in C++ using both the Boost and Qt libraries.
 
@@ -78,6 +78,9 @@ Of interest is the file ./src/moc/Makefile.am which is listed below;
 		@echo "abs_srcdir           = ${abs_srcdir}"
 		@echo "top_srcdir           = ${top_srcdir}"
 		@echo "builddir             = ${builddir}"
+
+The .hpp.moc suffix rule.
+-------------------------
 
 In particular, pay attention to the one and only suffix rule in this Makefile; that is;
 
