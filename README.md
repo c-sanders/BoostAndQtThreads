@@ -12,20 +12,23 @@ Of interest is the file ./src/moc/Makefile.am which is listed below;
 
 	QT5_LIBS        = -lQt5Core -lQt5Gui -lQt5Widgets
 
-	
 
-	# Binary
-	# ======
+	# Miscellaneous
+	# =============
 
 	INCLUDE_DIRS    = -I${top_srcdir}/include ${QT5_INCLUDE_DIR}
 
 	MOC_FILES       = TestClass.moc
 
 
+	# Utilities
+	# =========
+
+	# The location of the Qt Meta Object Compiler (moc) which should be used to build the moc files.
+
 	MOC = /usr/local/Qt-5.15.1/bin/moc
-	
-	
-	SUFFIXES : .hpp
+
+	# SUFFIXES : .hpp
 
 	vpath %.hpp     ../../include
 	
@@ -33,7 +36,9 @@ Of interest is the file ./src/moc/Makefile.am which is listed below;
 	# Suffix rules
 	# ============
 
-	# The following suffix rule tells make how to build Qt moc files from .hpp files.
+	# Pay particular attention to the following suffix rule.
+	#
+	# It tells make how to build Qt moc files from the corresponding .hpp files.
 
 	.hpp.moc :
 
