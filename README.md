@@ -53,10 +53,6 @@ Of interest is the file ./src/moc/Makefile.am which is listed below;
 	# Suffix rules
 	# ============
 
-	# Pay particular attention to the following suffix rule.
-	#
-	# It tells make how to build Qt moc files from the corresponding .hpp files.
-
 	.hpp.moc :
 
 		@echo "Makefile   : ./src/moc/Makefile"
@@ -64,6 +60,7 @@ Of interest is the file ./src/moc/Makefile.am which is listed below;
 		@echo "Dependency = $<"
 		${MOC} ${boost_and_qt_threads_INCLUDES} $< -o $@
 		destFile=$$(echo $@ | sed 's/^\(.*\)\.moc$$/\1.cpp/') && cp -vp $@ moc_$${destFile}
+
 
 	# Targets
 	# =======
@@ -82,3 +79,17 @@ Of interest is the file ./src/moc/Makefile.am which is listed below;
 		@echo "top_srcdir           = ${top_srcdir}"
 		@echo "builddir             = ${builddir}"
 
+In particular, pay attention to the one and only suffix rule in this Makefile - that is;
+
+	.hpp.moc :
+
+		@echo "Makefile   : ./src/moc/Makefile"
+		@echo "Target     = $@"
+		@echo "Dependency = $<"
+		${MOC} ${boost_and_qt_threads_INCLUDES} $< -o $@
+		destFile=$$(echo $@ | sed 's/^\(.*\)\.moc$$/\1.cpp/') && cp -vp $@ moc_$${destFile}
+
+This suffix rule tells make how to build Qt moc (.moc) files from the corresponding .hpp files. If a particular .moc file is found by make, to be out of
+date, then it will use this rule to update it.
+#
+# make will use the relevant vpath directive to find the correct dependency for this rule.
