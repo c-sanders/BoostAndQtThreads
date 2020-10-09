@@ -104,6 +104,20 @@ target .moc file. This copy has a similar name to the target file, except that t
 
 	TestClass.moc --> moc_TestClass.cpp
 
-These two files are effectively created at the same time.
+Remember - these two files are the same file and are effectivey created at the same time. File TestClass.hpp is the dependency file for both of them.
+
+File moc_TestClass.cpp is itself declared as a build dependency in ./src/Makefile.am. You might then wonder why moc_TestClass.cpp isn't simply
+generated from a corresponding .hpp dependency file? That is;
+
+	TestClass.hpp --> moc_TestClass.cpp
+
+The reason is, when make consults the directories listed in the appropriate vpath, it will never find a file called;
+
+	moc_TestClass.hpp
+
+Furthermore, and as far as the author is aware, suffix rules aren't powerful enough to allow us to specify such a scenario. Pattern rules can do this, but they are a
+GNU extension, and as a result, the GNU Autptools will complain about them.
+
+
 
 
