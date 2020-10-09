@@ -1,33 +1,25 @@
-C++ basic threading example using Boost and Qt.
+Basic C++ threading example using Boost and Qt.
 ===============================================
 
 Of interest is the file ./src/moc/Makefile.am which is listed below;
 
-	# ACLOCAL_AMFLAGS(-I m4)
-	
-	
-	# Binary
-	# ======
-	
-	# bin_PROGRAMS              = boost_and_qt_threads
-	
-	
 	# Qt5 library
 	# ===========
-	
-	QT5_INCLUDE_DIR           = -I/usr/local/Qt-5.15.1/include/
-	
-	QT5_LIB_DIR               = -L/usr/local/Qt-5.15.1/lib/
-	
-	QT5_LIBS                  = -lQt5Core -lQt5Gui -lQt5Widgets
 
+	QT5_INCLUDE_DIR = -I/usr/local/Qt-5.15.1/include/
+
+	QT5_LIB_DIR     = -L/usr/local/Qt-5.15.1/lib/
+
+	QT5_LIBS        = -lQt5Core -lQt5Gui -lQt5Widgets
+
+	
 
 	# Binary
 	# ======
 
-	boost_and_qt_threads_INCLUDES         = -I${top_srcdir}/include ${QT5_INCLUDE_DIR}
+	INCLUDE_DIRS    = -I${top_srcdir}/include ${QT5_INCLUDE_DIR}
 
-	boost_and_qt_threads_MOC_FILES        = TestClass.moc
+	MOC_FILES       = TestClass.moc
 
 
 	MOC = /usr/local/Qt-5.15.1/bin/moc
@@ -36,13 +28,12 @@ Of interest is the file ./src/moc/Makefile.am which is listed below;
 	SUFFIXES : .hpp
 
 	vpath %.hpp     ../../include
+	
 
+	# Suffix rules
+	# ============
 
-	all : moc
-
-
-	moc : ${boost_and_qt_threads_MOC_FILES}
-
+	# The following suffix rule tells make how to build Qt moc files from .hpp files.
 
 	.hpp.moc :
 
@@ -51,6 +42,14 @@ Of interest is the file ./src/moc/Makefile.am which is listed below;
 		@echo "Dependency = $<"
 		${MOC} ${boost_and_qt_threads_INCLUDES} $< -o $@
 		destFile=$$(echo $@ | sed 's/^\(.*\)\.moc$$/\1.cpp/') && cp -vp $@ moc_$${destFile}
+
+	# Targets
+	# =======
+
+	all : moc
+
+
+	moc : ${boost_and_qt_threads_MOC_FILES}
 
 
 	.PHONY : displaySettings
