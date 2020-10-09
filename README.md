@@ -98,9 +98,12 @@ in the vpath directive, to see if it can find a file which will act as the depen
 be newer than the target file - or if the target file doesn't yet exist, then this suffix rule will be invoked (using the target and dependency files just
 discussed) in order to update the target file.
 
-make doesn't know how to compile .moc files, so once the .moc file has been built, a copy is then made of it - but with a moc_ filename prefix and a .cpp
-filename extension instead of a .moc filename extension. For example;
+Furthermore, this Makefile doesn't tell make know how to compile .moc files from .hpp files. To help compensate for this, the suffix rule makes a copy of the
+target .moc file. This copy has a similar name to the target file, except that the filename is prefixed by _moc, and the filename extension is changed from
+.moc to .cpp. For example;
 
-	TestClass.moc -- becomes --> moc_TestClass.cpp
+	TestClass.moc --> moc_TestClass.cpp
 
 These two files are effectively created at the same time.
+
+
