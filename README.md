@@ -92,7 +92,7 @@ In particular, pay attention to the one and only suffix rule in this Makefile; t
 This suffix rule tells make how to build a Qt moc (.moc) files from the corresponding .hpp file. If make finds that a particular .moc file is out of date,
 then it will use this rule to update it.
 
-When a particular target file is passed to this rule, the first thing the make utility needs to do, is to work out which file is the dependency for the target
+When a particular target file is passed to this rule, the first thing that the make utility does, is work out which file is the dependency for the target
 file. It does this by consulting the relevant vpath directive, i.e. ../../include in this case. If the dependency file is found to be newer than the target
 file - or if the target file doesn't yet exist, then this rule will be invoked in order to update the target file.
 
