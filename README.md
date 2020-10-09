@@ -106,7 +106,7 @@ target .moc file. This copy has a similar name to the target file, except that t
 
 Remember - these two files are the same file and are effectivey created at the same time. File TestClass.hpp is the dependency file for both of them.
 
-File moc_TestClass.cpp is itself declared as a build dependency in ./src/Makefile.am. You might then wonder why moc_TestClass.cpp isn't simply
+File moc_TestClass.cpp is itself declared as a build dependency in `./src/Makefile.am`. You might then wonder why moc_TestClass.cpp isn't simply
 generated from a corresponding .hpp dependency file? That is;
 
 	TestClass.hpp --> moc_TestClass.cpp
