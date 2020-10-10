@@ -108,16 +108,15 @@ a dependency file whose name is `TestClass.hpp'.
 
 + Locating the dependency file.
 
-Once the suffix rule has ascertained the name of the dependency file, the next step is to locate it. But where should the make utility look for it? This is
-the job of the `vpath %.hpp` directive. This directive should list one of more directories which the make utility should look in for `.hpp` files.
+Once the suffix rule has established the name of the dependency file, the next step is to locate it. But where should the make utility look for it? This is
+the job of the `vpath %.hpp` directive. This directive should list one of more directories which the make utility should look in for any required `.hpp` files.
+If the dependency file is found, and it is found to be newer than the target file - or if the target file doesn't yet exist, then this suffix rule will be
+invoked (using the target and dependency files just discussed) in order to update the target file.
 
-When a particular target file is passed to this rule, the first thing that the make utility does, is work out which file is the dependency for the target
-file. It does this by consulting the relevant vpath directive, i.e. ../../include in this case. make then searches through the directories which are listed
-in the vpath directive, to see if it can find a file which will act as the dependency file for the target file. If a dependency file is found, and it is found to
-be newer than the target file - or if the target file doesn't yet exist, then this suffix rule will be invoked (using the target and dependency files just
-discussed) in order to update the target file.
++ Problem with this suffix rule and a workaround.
 
-Furthermore, this Makefile doesn't tell make know how to compile .moc files from .hpp files. To help compensate for this, the suffix rule makes a copy of the
+A problem with this Makefile, is that it doesn't tell the make utility how to build `.cpp` suffixed moc files from `.hpp` files. To help compensate for this,
+the suffix rule makes a copy of the 
 target .moc file. This copy has a similar name to the target file, except that the filename is prefixed by _moc, and the filename extension is changed from
 .moc to .cpp. For example;
 
