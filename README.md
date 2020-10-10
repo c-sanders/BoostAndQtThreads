@@ -97,7 +97,19 @@ In particular, pay attention to the one and only suffix rule in this Makefile; t
 This suffix rule tells make how to build a Qt moc (.moc) files from the corresponding .hpp file. If make finds that a particular .moc file is out of date,
 then it will use this rule to update it.
 
-+ How it finds dependency files.
++ Ascertaining the name of dependency file.
+
+Once a particular target file has been passed to this suffix rule, the next thing that the make utility needs to do, is to ascertain the name of the dependency
+file which the target file depends upon.
+
+Suffix rules aren't very powerful or clever, so all this suffix rule does is look for a dependency file whose filename is the same as the target filename, but with
+a filename extension of `.hpp` instead of `.moc`. For example, if this suffix rule was passed a target filename of `TestClass.moc`, then it would look for
+a dependency file whose name is `TestClass.hpp'.
+
++ Locating for the dependency file.
+
+Once the suffix rule has ascertained the name of the dependency file, the next step is to locate it. But where should the make utility look for it? This is
+the job of the `vpath %.hpp` directive. This directive should list one of more directories which the make utility should look in for `.hpp` files.
 
 When a particular target file is passed to this rule, the first thing that the make utility does, is work out which file is the dependency for the target
 file. It does this by consulting the relevant vpath directive, i.e. ../../include in this case. make then searches through the directories which are listed
