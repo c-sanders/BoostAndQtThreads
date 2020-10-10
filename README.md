@@ -104,7 +104,7 @@ file which the target file depends upon.
 
 Suffix rules aren't very powerful or clever, so all this suffix rule does is look for a dependency file whose filename is the same as the target filename, but with
 a filename extension of `.hpp` instead of `.moc`. For example, if this suffix rule was passed a target filename of `TestClass.moc`, then it would look for
-a dependency file whose name is `TestClass.hpp'.
+a dependency file whose name is `TestClass.hpp`.
 
 + Locating the dependency file.
 
@@ -116,9 +116,8 @@ invoked (using the target and dependency files just discussed) in order to updat
 + Problem with this suffix rule and a workaround.
 
 A problem with this Makefile, is that it doesn't tell the make utility how to build `.cpp` suffixed moc files from `.hpp` files. To help compensate for this,
-the suffix rule makes a copy of the 
-target .moc file. This copy has a similar name to the target file, except that the filename is prefixed by _moc, and the filename extension is changed from
-.moc to .cpp. For example;
+the suffix rule makes a copy of the target `.moc` file. This copy has a similar name to the target file, except that the filename is prefixed by `moc_` and 
+the filename extension is changed from `.moc` to `.cpp`. For example;
 
 	TestClass.moc --> moc_TestClass.cpp
 
