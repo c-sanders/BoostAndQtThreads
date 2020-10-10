@@ -106,7 +106,7 @@ Suffix rules aren't very powerful or clever, so all this suffix rule does is loo
 a filename extension of `.hpp` instead of `.moc`. For example, if this suffix rule was passed a target filename of `TestClass.moc`, then it would look for
 a dependency file whose name is `TestClass.hpp'.
 
-+ Locating for the dependency file.
++ Locating the dependency file.
 
 Once the suffix rule has ascertained the name of the dependency file, the next step is to locate it. But where should the make utility look for it? This is
 the job of the `vpath %.hpp` directive. This directive should list one of more directories which the make utility should look in for `.hpp` files.
