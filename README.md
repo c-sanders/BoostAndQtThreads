@@ -101,7 +101,8 @@ then it will use this rule to update it.
 
 Once a particular target file has been passed to this suffix rule, the next thing that the make utility needs to do, is to ascertain the name of the dependency
 file which the target file depends upon. This task of ascertaining the name of the dependency file, is delegated by the make utility to the suffix rule. One problem with 
-this however, is that suffix rules aren't all that powerful - or clever. All this suffix rule does is look for a dependency file whose filename is the same as the target filename, but with
+this however, is that suffix rules aren't all that powerful - or clever. When it come to ascertaining the name of the dependency file, all this suffix rule does is 
+look for a dependency file whose filename is the same as the target filename, but with
 a filename extension of `.hpp` rather than `.moc`. For example, if this suffix rule was passed a target filename of `TestClass.moc`, then it would simply look for
 a dependency file whose name is `TestClass.hpp`.
 
