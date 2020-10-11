@@ -94,7 +94,7 @@ In particular, pay attention to the one and only suffix rule in this Makefile; t
 
 + What it does.
 
-This suffix rule tells make how to build a Qt moc (.moc) files from the corresponding .hpp file. If make finds that a particular .moc file is out of date,
+This suffix rule tells make how to build a Qt moc (`.moc`) file from the corresponding `.hpp` file. If make finds that a particular `.moc` file is out of date,
 then it will use this rule to update it.
 
 + Ascertaining the name of dependency file.
