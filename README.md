@@ -100,9 +100,8 @@ then it will use this rule to update it.
 + Ascertaining the name of dependency file.
 
 Once a particular target file has been passed to this suffix rule, the next thing that the make utility needs to do, is to ascertain the name of the dependency
-file which the target file depends upon.
-
-Suffix rules aren't very powerful or clever, so all this suffix rule does is look for a dependency file whose filename is the same as the target filename, but with
+file which the target file depends upon. The make utility accomplishes this task by getting this suffix rule to ascertain the name of the dependency file for it.
+Unfortunately however, suffix rules aren't very powerful or clever; all this suffix rule does is look for a dependency file whose filename is the same as the target filename, but with
 a filename extension of `.hpp` rather than `.moc`. For example, if this suffix rule was passed a target filename of `TestClass.moc`, then it would simply look for
 a dependency file whose name is `TestClass.hpp`.
 
