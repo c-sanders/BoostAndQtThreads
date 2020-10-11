@@ -110,7 +110,7 @@ a dependency file whose name is `TestClass.hpp`.
 
 Once the suffix rule has established the name of the dependency file, the next step is to locate it. The task of specifying where the make utility should look for this
 dependency file, is handled by one of the vpath directives - in this particular case, the `vpath %.hpp` directive. This directive should list one of more directories
-for the make utility to look in for any required `.hpp` files.
+for the make utility to search through whenever it is required to go looking for any for any `.hpp` files.
 If the dependency file is found, and it is found to be newer than the target file - or if the target file doesn't yet exist, then this suffix rule will be
 invoked (using the target and dependency files just discussed) in order to update the target file.
 
