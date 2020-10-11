@@ -121,14 +121,16 @@ the filename extension is changed from `.moc` to `.cpp`. For example;
 
 	TestClass.moc --> moc_TestClass.cpp
 
-Remember - these two files are the same file and are effectivey created at the same time. File TestClass.hpp is the dependency file for both of them.
+Remember, these two files are the same file and are effectivey created at the same time. Furthermore, the file `TestClass.hpp` is the dependency file for both of them.
 
-File moc_TestClass.cpp is itself declared as a build dependency in `./src/Makefile.am`. You might then wonder why moc_TestClass.cpp isn't simply
+File `moc_TestClass.cpp` is itself declared as a build dependency in `./src/Makefile.am`. This then raises the question as to why moc_TestClass.cpp isn't simply
 generated from a corresponding .hpp dependency file? That is;
 
 	TestClass.hpp --> moc_TestClass.cpp
 
-The reason is, when make consults the directories listed in the appropriate vpath, it will never find a file called;
+As per the discussion earlier, the make utility would ascertain that the dependency file for this target should be 
+
+The reason for this is because when make goes looking for consults the directories listed in the appropriate vpath, it will never find a file called;
 
 	moc_TestClass.hpp
 
