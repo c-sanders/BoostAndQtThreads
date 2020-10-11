@@ -103,7 +103,7 @@ Once a particular target file has been passed to this suffix rule, the next thin
 file which the target file depends upon.
 
 Suffix rules aren't very powerful or clever, so all this suffix rule does is look for a dependency file whose filename is the same as the target filename, but with
-a filename extension of `.hpp` instead of `.moc`. For example, if this suffix rule was passed a target filename of `TestClass.moc`, then it would look for
+a filename extension of `.hpp` rather than `.moc`. For example, if this suffix rule was passed a target filename of `TestClass.moc`, then it would look for
 a dependency file whose name is `TestClass.hpp`.
 
 + Locating the dependency file.
