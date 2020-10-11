@@ -97,14 +97,14 @@ In particular, pay attention to the one and only suffix rule in this Makefile; t
 This suffix rule tells make how to build a Qt moc (`.moc`) file from the corresponding `.hpp` file. If make finds that a particular `.moc` file is out of date,
 then it will use this rule to update it.
 
-+ Ascertaining the name of dependency file.
++ Ascertaining the name of the dependency file.
 
 Once a particular target file has been passed to this suffix rule, the next thing that the make utility needs to do, is to ascertain the name of the dependency
 file which the target file depends upon. This task of ascertaining the name of the dependency file, is delegated by the make utility to the suffix rule. One problem with 
 this however, is that suffix rules aren't all that powerful - or clever. When it come to ascertaining the name of the dependency file, all this suffix rule does is 
-look for a dependency file whose filename is the same as the target filename, but with
-a filename extension of `.hpp` rather than `.moc`. For example, if this suffix rule was passed a target filename of `TestClass.moc`, then all it would do is simply
-ascertain that it needs to look for a dependency file whose name is `TestClass.hpp`.
+look for a dependency file whose filename is the same as the target filename, but with a filename extension of `.hpp` rather than `.moc`. For example, if
+this suffix rule was passed a target filename of `TestClass.moc`, then all it would do is simply ascertain that it needs to look for a dependency file whose
+name is `TestClass.hpp`.
 
 + Locating the dependency file.
 
@@ -136,7 +136,7 @@ The reason for this is because when make goes looking for consults the directori
 	moc_TestClass.hpp
 
 Furthermore, and as far as the author is aware, suffix rules aren't powerful enough to allow us to specify such a scenario. Pattern rules can do this, but they are a
-GNU extension, and as a result, the GNU Autptools will complain about them.
+GNU extension, and as a result, the GNU Autotools will complain about them.
 
 
 
