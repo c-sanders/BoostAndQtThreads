@@ -142,10 +142,10 @@ above be replaced with a pattern rule such as the following;
 
 	%.hpp : moc_%.cpp
 	
-	@echo "Makefile   : ./src/moc/Makefile"
-	@echo "Target     = $@"
-	@echo "Dependency = $<"
-	${MOC} ${boost_and_qt_threads_INCLUDES} $< -o $@
+		@echo "Makefile   : ./src/moc/Makefile"
+		@echo "Target     = $@"
+		@echo "Dependency = $<"
+		${MOC} ${boost_and_qt_threads_INCLUDES} $< -o $@
 
 This rule is both shorter and simpler - and it doesn't need to copy the resulting file.
 
