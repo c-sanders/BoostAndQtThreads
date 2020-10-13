@@ -6,17 +6,18 @@ Introduction
 
 The main aim of this package is to attempt to illustrate the following concepts;
 
-  - How to write Makefiles so that they can build Qt moc files.
+  - How to write a Makefile rule which is capable of building Qt moc files.
 
   - How to create threads in C++ using both the Boost and Qt libraries.
 
   - How to implement a new class which subclasses from a Qt class.
 
 
-How Makefiles can be written in order to build Qt moc files.
-------------------------------------------------------------
+How to write a Makefile rule which is capable of building Qt moc files.
+-----------------------------------------------------------------------
 
-Of interest is the file ./src/moc/Makefile.am which is listed below;
+An example of a Makefile rule which is capable of building Qt moc files, is contained within the GNU Automake Makefile `./src/Makefile.am`.
+The contents of this file are listed immediately below;
 
 	# Qt5 library
 	# ===========
@@ -82,7 +83,8 @@ Of interest is the file ./src/moc/Makefile.am which is listed below;
 The .hpp.moc suffix rule.
 -------------------------
 
-In particular, pay attention to the one and only suffix rule in this Makefile; that is;
+The Makefile rule which is capable of building Qt moc files, is implemented as a suffix rule, and can be found in the section of the Makefile which is titled
+"Suffix rules".
 
 	.hpp.moc :
 
@@ -99,9 +101,9 @@ then it will use this rule to update it.
 
 + Ascertaining the name of the dependency file.
 
-Once a particular target file has been passed to this suffix rule, the next thing that the make utility needs to do, is to ascertain the name of the dependency
-file which the target file depends upon. This task of ascertaining the name of the dependency file, is delegated by the make utility to the suffix rule. One problem with 
-this however, is that suffix rules aren't all that powerful - or clever. When it come to ascertaining the name of the dependency file, all this suffix rule does is 
+Once a particular target filename has been passed to this suffix rule, the next thing that the make utility needs to do, is to ascertain the name of the dependency
+file which the target file depends upon. This task is delegated by the make utility to the suffix rule. One problem with 
+this however, is that suffix rules aren't all that powerful - or clever. When it comes to ascertaining the name of the dependency file, all this suffix rule does is 
 look for a dependency file whose filename is the same as the target filename, but with a filename extension of `.hpp` rather than `.moc`. For example, if
 this suffix rule was passed a target filename of `TestClass.moc`, then all it would do is simply ascertain that it needs to look for a dependency file whose
 name is `TestClass.hpp`.
@@ -112,32 +114,45 @@ Once the suffix rule has established the name of the dependency file, the next s
 dependency file, is handled by one of the vpath directives which is defined within in the Makefile - in this particular case, the `vpath %.hpp` directive. This directive should list one of more directories
 for the make utility to search through whenever it is required to go looking for any `.hpp` files.
 If the dependency file is found, and it is found to be newer than the target file - or if the target file doesn't yet exist, then this suffix rule will be
-invoked (using the target and dependency files just discussed) in order to update the target file.
+invoked (using the target and dependency filenames just discussed) in order to update the target file.
 
 + Problem with this suffix rule and a workaround.
 
-A problem with this Makefile, is that it doesn't tell the make utility how to build `.cpp` suffixed moc files from `.hpp` files. To help compensate for this,
-the suffix rule makes a copy of the target `.moc` file. This copy has a similar name to the target file, except that the filename is prefixed by `moc_` and 
+There is a problem with this Makefile, and that is that it doesn't tell the make utility how to build `.cpp` suffixed moc files from `.hpp` files. To help compensate for this,
+once the suffix rule has built its `.moc` target file, it then makes a copy of it. This copy has a similar name to the target file, except that the filename is prefixed by `moc_` and 
 the filename extension is changed from `.moc` to `.cpp`. For example;
 
 	TestClass.moc --> moc_TestClass.cpp
 
 Remember, these two files are the same file and are effectivey created at the same time. Furthermore, the file `TestClass.hpp` is the dependency file for both of them.
 
-File `moc_TestClass.cpp` is itself declared as a build dependency in `./src/Makefile.am`. This then raises the question as to why moc_TestClass.cpp isn't simply
+File `moc_TestClass.cpp` is itself declared as a build dependency in `./src/Makefile.am`. This then raises the question of why moc_TestClass.cpp isn't simply
 generated from a corresponding .hpp dependency file? That is;
 
 	TestClass.hpp --> moc_TestClass.cpp
 
-As per the discussion earlier, the make utility would ascertain that the dependency file for this target should be 
+Taking into account what was stated earlier, we can see that the make utility would ascertain that the dependency file for this target should be `moc_TestClass.hpp`.
+make would then go searching for a dependency file with this name, but would be unable to find it. This is one of the reasons why suffix rules were described earlier
+as not being all that powerful - or clever.
 
-The reason for this is because when make goes looking for consults the directories listed in the appropriate vpath, it will never find a file called;
++ Can a pattern rule be used instead?
 
-	moc_TestClass.hpp
+This might then prompt the question as to why a pattern rule can't be used instead? Afterll, they are more powerful - and clever. Couldn't the suffix rule from
+above be replaced with a pattern rule such as the following;
 
-Furthermore, and as far as the author is aware, suffix rules aren't powerful enough to allow us to specify such a scenario. Pattern rules can do this, but they are a
-GNU extension, and as a result, the GNU Autotools will complain about them.
+	%.hpp : moc_%.cpp
+	
+	@echo "Makefile   : ./src/moc/Makefile"
+	@echo "Target     = $@"
+	@echo "Dependency = $<"
+	${MOC} ${boost_and_qt_threads_INCLUDES} $< -o $@
 
+Now we don't need to copy the resulting file. The trouble however, is that the Autotools will complain when they see a pattern rule. In response to seeing a pattern
+rule, the Autotools will generate a message which is similar to the following;
+
+	automake: warnings are treated as errors
+	src/Makefile.am:xxx: warning: '%'-style pattern rules are a GNU make extension
+	autoreconf: automake failed with exit status: 1
 
 
 
