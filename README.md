@@ -155,7 +155,7 @@ The trouble however, is that the GNU Autotools might complain when they come acr
 	src/Makefile.am:xxx: warning: '%'-style pattern rules are a GNU make extension
 	autoreconf: automake failed with exit status: 1
 
-It is stated that the GNU Autotools might generate a message similar to this. The 'might' is used, because it depends upon how the `AM_INIT_AUTOMAKE` macro is invoked
+It was stated above that the GNU Autotools might generate a message similar to this. The word 'might' is used, because it depends upon how the `AM_INIT_AUTOMAKE` macro is invoked
 from within a GNU Autotools project's `configure.ac` file.
 
 
