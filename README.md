@@ -149,11 +149,14 @@ above be replaced with a pattern rule such as the following;
 
 This rule is both shorter and simpler - and it doesn't need to copy the resulting file.
 
-The trouble however, is that the GNU Autotools will complain when they see a pattern rule. In response to seeing one, the Autotools will generate a message which is similar to the following;
+The trouble however, is that the GNU Autotools might complain when they come across a pattern rule while processing a `Makefile.am`. In response to seeing one, the Autotools might generate a message which is similar to the following;
 
 	automake: warnings are treated as errors
 	src/Makefile.am:xxx: warning: '%'-style pattern rules are a GNU make extension
 	autoreconf: automake failed with exit status: 1
+
+It is stated that the GNU Autotools might generate a message similar to this. The 'might' is used, because it depends upon how the `AM_INIT_AUTOMAKE` macro is invoked
+from within a GNU Autotools project's `configure.ac` file.
 
 
 
