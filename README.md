@@ -149,8 +149,7 @@ above be replaced with a pattern rule such as the following;
 
 This rule is both shorter and simpler - and it doesn't need to copy the resulting file.
 
-The trouble however, is that the GNU Autotools will complain when they see a pattern rule. In response to seeing a pattern
-rule, the Autotools will generate a message which is similar to the following;
+The trouble however, is that the GNU Autotools will complain when they see a pattern rule. In response to seeing one, the Autotools will generate a message which is similar to the following;
 
 	automake: warnings are treated as errors
 	src/Makefile.am:xxx: warning: '%'-style pattern rules are a GNU make extension
