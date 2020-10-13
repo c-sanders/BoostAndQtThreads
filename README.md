@@ -147,7 +147,9 @@ above be replaced with a pattern rule such as the following;
 	@echo "Dependency = $<"
 	${MOC} ${boost_and_qt_threads_INCLUDES} $< -o $@
 
-This rule is both shorter and simpler - and it doesn't need to copy the resulting file. The trouble however, is that the Autotools will complain when they see a pattern rule. In response to seeing a pattern
+This rule is both shorter and simpler - and it doesn't need to copy the resulting file.
+
+The trouble however, is that the GNU Autotools will complain when they see a pattern rule. In response to seeing a pattern
 rule, the Autotools will generate a message which is similar to the following;
 
 	automake: warnings are treated as errors
