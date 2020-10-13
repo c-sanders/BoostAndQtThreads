@@ -137,7 +137,7 @@ as not being all that powerful - or clever.
 
 + Can a pattern rule be used instead?
 
-This now poses the question as to why a pattern rule can't be used instead? Afterll, they are more powerful - and clever. Couldn't the suffix rule from
+This now poses the question as to why a pattern rule can't be used instead? Afterall, they are more powerful - and clever. Couldn't the suffix rule from
 above be replaced with a pattern rule such as the following;
 
 	%.hpp : moc_%.cpp
