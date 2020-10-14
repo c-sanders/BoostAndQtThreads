@@ -1,5 +1,5 @@
-Basic C++ threading example using the Boost and Qt threading libraries.
-=======================================================================
+Basic C++ threading example using both the Boost and Qt threading libraries.
+============================================================================
 
 Introduction
 ------------
@@ -8,7 +8,7 @@ The main aim of this package is to attempt to illustrate the following concepts;
 
   - How to write a Makefile rule which is capable of building Qt moc files.
 
-  - How to create threads in C++ using both the Boost and Qt libraries.
+  - How to create threads in C++ using both the Boost and Qt threading libraries.
 
   - How to implement a new class which subclasses from a Qt class.
 
