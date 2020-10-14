@@ -1,5 +1,5 @@
-Basic C++ threading example using Boost and Qt.
-===============================================
+Basic C++ threading example using the Boost and Qt threading libraries.
+=======================================================================
 
 Introduction
 ------------
