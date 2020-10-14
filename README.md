@@ -96,13 +96,13 @@ The Makefile rule which is capable of building Qt moc files, is implemented as a
 
 + What it does.
 
-This suffix rule tells make how to build a Qt moc (`.moc`) file from the corresponding `.hpp` file. If make finds that a particular `.moc` file is out of date,
+This suffix rule tells the make utility - hereafter referred to simply as "make", how to build a Qt moc (`.moc`) file from the corresponding `.hpp` file. If make finds that a particular `.moc` file is out of date,
 then it will use this rule to update it.
 
 + Ascertaining the name of the prerequisite file.
 
-Once a particular target filename has been passed to this suffix rule, the next thing that the make utility needs to do, is ascertain the name of the prerequisite
-file which the target file depends upon. This task is delegated by the make utility to the suffix rule. One problem with 
+Once a particular target filename has been passed to this suffix rule, the next thing that make needs to do, is ascertain the name of the prerequisite
+file which the target file depends upon. This task is delegated by make to the suffix rule. One problem with 
 this however, is that suffix rules aren't all that powerful - or clever. When it comes to ascertaining the name of the prerequisite file, all this suffix rule does is 
 look for a prerequisite file whose filename is the same as the target filename, but with a filename extension of `.hpp` rather than `.moc`. For example, if
 this suffix rule was passed a target filename of `TestClass.moc`, then all it would do is simply ascertain that it needs to look for a prerequisite file whose
@@ -110,15 +110,15 @@ name is `TestClass.hpp`.
 
 + Locating the prerequisite file.
 
-Once the suffix rule has established the name of the prerequisite file, the next step is to locate it. The task of specifying where the make utility should look for this
+Once the suffix rule has established the name of the prerequisite file, the next step is to locate it. The task of specifying where make should look for this
 prerequisite file, is handled by one of the vpath directives which is defined within in the Makefile - in this particular case, the `vpath %.hpp` directive. This directive should list one of more directories
-for the make utility to search through whenever it is required to go looking for any `.hpp` files.
+for make to search through whenever it is required to go looking for any `.hpp` files.
 If the prerequisite file is found, and it is found to be newer than the target file - or if the target file doesn't yet exist, then this suffix rule will be
 invoked (using the target and prerequisite filenames just discussed) in order to update the target file.
 
 + Problem with this suffix rule and a workaround.
 
-There is a problem with this Makefile, and that is that it doesn't tell the make utility how to build `.cpp` suffixed moc files from `.hpp` files. To help compensate for this,
+There is a problem with this Makefile, and that is that it doesn't tell make how to build `.cpp` suffixed moc files from `.hpp` files. To help compensate for this,
 once the suffix rule has built its `.moc` target file, it then makes a copy of it. This copy has a similar name to the target file, except that the filename is prefixed by `moc_` and 
 the filename extension is changed from `.moc` to `.cpp`. For example;
 
@@ -131,7 +131,7 @@ then raises the question of why these files aren't simply generated from a corre
 
 	TestClass.hpp --> moc_TestClass.cpp
 
-Taking into account what was stated earlier, we can see that the make utility would ascertain that the prerequisite file for this target should be `moc_TestClass.hpp`.
+Taking into account what was stated earlier, we can see that make would ascertain that the prerequisite file for this target should be `moc_TestClass.hpp`.
 make would then go searching for a prerequisite file with this name, but would be unable to find it. This is one of the reasons why suffix rules were described earlier
 as not being all that powerful - or clever.
 
@@ -164,6 +164,4 @@ It was stated above that the GNU Autotools might generate a message similar to t
 from within a GNU Autotools project's `configure.ac` file. If it is invoked as follows, then the GNU Autotools should generate the warning/error message shown above.
 
 	AM_INIT_AUTOMAKE([-Wall -Werror foreign])
-
-
 
