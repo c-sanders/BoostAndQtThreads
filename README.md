@@ -147,14 +147,18 @@ Therefore, couldn't the suffix rule from above be replaced with a pattern rule s
 		@echo "prerequisite = $<"
 		${MOC} ${boost_and_qt_threads_INCLUDES} $< -o $@
 
-As can be seen, this rule is both shorter and simpler. Furthermore, it doesn't need to copy the resulting file.
+As can be seen, this rule is both shorter and simpler. Furthermore, it doesn't need to copy the resulting file. This pattern rule will work, however the
+GNU Autotools project which it is a part of, needs to be configured correctly so as to allow the project to use pattern rules.
 
-The trouble with pattern rules however, is that they are GNU extension to Makefiles. As a consequence, the GNU Autotools (Automake in particular in this case),
-might complain when they come across a pattern rule while processing a `Makefile.am`. In response to seeing one, the Autotools might generate a message which is similar to the following;
+The previous paragraph implies that there is problem using pattern rules in GNU Autotools projects - and this is indeed the case. The problem with pattern rules is,
+they are GNU extension to Makefiles, and as a consequence, the GNU Autotools (Automake in particular in this case), might complain when they come across a pattern
+rule while processing a `Makefile.am`. In response to seeing one, the Autotools might generate a message which is similar to the following;
 
 	automake: warnings are treated as errors
 	src/Makefile.am:xxx: warning: '%'-style pattern rules are a GNU make extension
 	autoreconf: automake failed with exit status: 1
+
++ Configuring a GNU Autotools project to use pattern rules.
 
 It was stated above that the GNU Autotools might generate a message similar to this. The word 'might' is used, because it depends upon how the `AM_INIT_AUTOMAKE` macro is invoked
 from within a GNU Autotools project's `configure.ac` file. If it is invoked as follows, then the GNU Autotools should generate the warning/error message shown above.
