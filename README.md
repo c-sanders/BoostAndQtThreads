@@ -56,9 +56,9 @@ The contents of this file are listed immediately below;
 
 	.hpp.moc :
 
-		@echo "Makefile   : ./src/moc/Makefile"
-		@echo "Target     = $@"
-		@echo "Dependency = $<"
+		@echo "Makefile     : ./src/moc/Makefile"
+		@echo "Target       = $@"
+		@echo "Prerequisite = $<"
 		${MOC} ${boost_and_qt_threads_INCLUDES} $< -o $@
 		destFile=$$(echo $@ | sed 's/^\(.*\)\.moc$$/\1.cpp/') && cp -vp $@ moc_$${destFile}
 
@@ -88,9 +88,9 @@ The Makefile rule which is capable of building Qt moc files, is implemented as a
 
 	.hpp.moc :
 
-		@echo "Makefile   : ./src/moc/Makefile"
-		@echo "Target     = $@"
-		@echo "Dependency = $<"
+		@echo "Makefile     : ./src/moc/Makefile"
+		@echo "Target       = $@"
+		@echo "Prerequisite = $<"
 		${MOC} ${boost_and_qt_threads_INCLUDES} $< -o $@
 		destFile=$$(echo $@ | sed 's/^\(.*\)\.moc$$/\1.cpp/') && cp -vp $@ moc_$${destFile}
 
@@ -99,22 +99,22 @@ The Makefile rule which is capable of building Qt moc files, is implemented as a
 This suffix rule tells make how to build a Qt moc (`.moc`) file from the corresponding `.hpp` file. If make finds that a particular `.moc` file is out of date,
 then it will use this rule to update it.
 
-+ Ascertaining the name of the dependency file.
++ Ascertaining the name of the prerequisite file.
 
-Once a particular target filename has been passed to this suffix rule, the next thing that the make utility needs to do, is to ascertain the name of the dependency
+Once a particular target filename has been passed to this suffix rule, the next thing that the make utility needs to do, is ascertain the name of the prerequisite
 file which the target file depends upon. This task is delegated by the make utility to the suffix rule. One problem with 
-this however, is that suffix rules aren't all that powerful - or clever. When it comes to ascertaining the name of the dependency file, all this suffix rule does is 
-look for a dependency file whose filename is the same as the target filename, but with a filename extension of `.hpp` rather than `.moc`. For example, if
-this suffix rule was passed a target filename of `TestClass.moc`, then all it would do is simply ascertain that it needs to look for a dependency file whose
+this however, is that suffix rules aren't all that powerful - or clever. When it comes to ascertaining the name of the prerequisite file, all this suffix rule does is 
+look for a prerequisite file whose filename is the same as the target filename, but with a filename extension of `.hpp` rather than `.moc`. For example, if
+this suffix rule was passed a target filename of `TestClass.moc`, then all it would do is simply ascertain that it needs to look for a prerequisite file whose
 name is `TestClass.hpp`.
 
-+ Locating the dependency file.
++ Locating the prerequisite file.
 
-Once the suffix rule has established the name of the dependency file, the next step is to locate it. The task of specifying where the make utility should look for this
-dependency file, is handled by one of the vpath directives which is defined within in the Makefile - in this particular case, the `vpath %.hpp` directive. This directive should list one of more directories
+Once the suffix rule has established the name of the prerequisite file, the next step is to locate it. The task of specifying where the make utility should look for this
+prerequisite file, is handled by one of the vpath directives which is defined within in the Makefile - in this particular case, the `vpath %.hpp` directive. This directive should list one of more directories
 for the make utility to search through whenever it is required to go looking for any `.hpp` files.
-If the dependency file is found, and it is found to be newer than the target file - or if the target file doesn't yet exist, then this suffix rule will be
-invoked (using the target and dependency filenames just discussed) in order to update the target file.
+If the prerequisite file is found, and it is found to be newer than the target file - or if the target file doesn't yet exist, then this suffix rule will be
+invoked (using the target and prerequisite filenames just discussed) in order to update the target file.
 
 + Problem with this suffix rule and a workaround.
 
@@ -124,32 +124,33 @@ the filename extension is changed from `.moc` to `.cpp`. For example;
 
 	TestClass.moc --> moc_TestClass.cpp
 
-Remember, these two files are the same file and are effectivey created at the same time. Furthermore, the file `TestClass.hpp` is the dependency file for both of them.
+Remember, these two files are the same file and are effectivey created at the same time. Furthermore, the file `TestClass.hpp` is the prerequisite file for both of them.
 
-File `moc_TestClass.cpp` is itself declared as a build dependency in `./src/Makefile.am`. This then raises the question of why moc_TestClass.cpp isn't simply
-generated from a corresponding .hpp dependency file? That is;
+It is worth pointing out that the `moc_*.cpp` files which are built by this suffix rule, are treated as prerequisites by the Makefile `./src/Makefile.am`'. This
+then raises the question of why these files aren't simply generated from a corresponding .hpp prerequisite file? For example;
 
 	TestClass.hpp --> moc_TestClass.cpp
 
-Taking into account what was stated earlier, we can see that the make utility would ascertain that the dependency file for this target should be `moc_TestClass.hpp`.
-make would then go searching for a dependency file with this name, but would be unable to find it. This is one of the reasons why suffix rules were described earlier
+Taking into account what was stated earlier, we can see that the make utility would ascertain that the prerequisite file for this target should be `moc_TestClass.hpp`.
+make would then go searching for a prerequisite file with this name, but would be unable to find it. This is one of the reasons why suffix rules were described earlier
 as not being all that powerful - or clever.
 
 + Can a pattern rule be used instead?
 
-This now raises the question of why a pattern rule can't be used instead? Afterall, they are more powerful - and clever. Couldn't the suffix rule from
-above be replaced with a pattern rule such as the following;
+This now raises the question of why a pattern rule can't be used instead. Afterall - and as was mentioned earlier, they are more powerful and more clever than sffix rules.
+Therefore, couldn't the suffix rule from above be replaced with a pattern rule such as the following;
 
 	%.hpp : moc_%.cpp
 	
 		@echo "Makefile   : ./src/moc/Makefile"
 		@echo "Target     = $@"
-		@echo "Dependency = $<"
+		@echo "prerequisite = $<"
 		${MOC} ${boost_and_qt_threads_INCLUDES} $< -o $@
 
-This rule is both shorter and simpler - and it doesn't need to copy the resulting file.
+As can be seen, this rule is both shorter and simpler. Furthermore, it doesn't need to copy the resulting file.
 
-The trouble however, is that the GNU Autotools might complain when they come across a pattern rule while processing a `Makefile.am`. In response to seeing one, the Autotools might generate a message which is similar to the following;
+The trouble with pattern rules however, is that they are GNU extension to Makefiles. As a consequence, the GNU Autotools (Automake in particular in this case),
+might complain when they come across a pattern rule while processing a `Makefile.am`. In response to seeing one, the Autotools might generate a message which is similar to the following;
 
 	automake: warnings are treated as errors
 	src/Makefile.am:xxx: warning: '%'-style pattern rules are a GNU make extension
