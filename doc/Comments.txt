@@ -1,0 +1,87 @@
+# ${MOC} ${boost_and_qt_threads_INCLUDES} $< -o ./moc/moc_$@
+	
+
+# The following rule works.
+#
+
+# .hpp.cpp :
+
+#	/usr/local/Qt-5.15.1/bin/moc ${boost_and_qt_threads_INCLUDES} $< -o ./moc/$@
+
+
+# HelloWorldWindow.hpp -> HelloWorldWindow.moc -> moc_HelloWorldWindow.cpp
+#
+# Target - ultimate     : moc_HelloWorldWindow.cpp
+# Target - intermediate : HelloWorldWindow.moc
+# Prerequisite          : HelloWorldWindow.hpp
+#
+# Problem : How to convert intermediate target name into ultimate target name?
+#
+#   HelloWorldWindow.moc -> moc_HelloWorldWindow.cpp
+#
+# sed 's/^\(.*\)\.moc$/moc_\1.cpp/'
+#
+#	cp -vp $@ $$(echo $@ | sed 's/^\(.*\)\.moc$$/moc_\1.cpp/')
+#
+# Why doesn't invocation of the following;
+#
+#   make moc/HelloWorldWindow.moc
+#
+# cause make to match it to the .hpp.moc suffix rule?
+#
+# vpath directives are used by make to search for target files, so this can't be causing the
+# problem - see the following for confirmation;
+#
+#   https://www.gnu.org/software/make/manual/html_node/General-Search.html
+#
+# My suspicion is that if the target file doesn't yet exist in the moc subdirectory, then the make
+# vpath mechanism won't be able to correctly ascertain the location or status of the target file.
+# This in turn, will cause make to complain, with a message which is similar to the following;
+#
+#   make: *** No rule to make target 'moc/HelloWorldWindow.moc'.  Stop.
+#
+# How to overcome this? make doesn't complain in the same way if the following command is invoked;
+#
+#   make HelloWorldWindow.moc
+#
+# even if HelloWorldWindow.moc doesn't exist in the current directory. Why is this so?
+#
+# Further thoughts
+# ================
+#
+# If initially, HelloWorldWindow.moc doesn't exist, and I just invoke;
+#
+#   make HelloWorldWindow.moc
+#
+# then it will build this file in the moc directory. If I don't touch this file's prerequisite and
+# then I invoke the same make command again, then make will tell me;
+#
+#   make: './moc/HelloWorldWindow.moc' is up to date.
+#
+# Interesting.
+#
+# destFile=$$(echo $@ | sed 's/^\(.*\)\.cpp$$/moc_\1.cpp/') && cp -vp $@ $${destFile}
+
+# When it comes time for make to process TestClass.cpp, make incorrectly assumes that TestClass.cpp
+# depends on TestClass.moc. Due to this incorrect assumption, it will notice that TestClass.moc is
+# newer than TestClass.cpp, and as a result it will update TestClass.cpp using the following rule.
+# The trouble is, this rule will overwrite the moc_TestClass.cpp file with the TestClass.cpp file;
+# however, this is not what is desired!
+
+
+.hpp.moc :
+
+	@echo "Makefile   : ./src/Makefile"
+	@echo "Target     = $@"
+	@echo "Dependency = $<"
+	${MAKE} -C ./moc $@
+	
+#	${MOC} ${boost_and_qt_threads_INCLUDES} $< -o $@
+#	destFile=$$(echo $@ | sed 's/^\(.*\)\.moc$$/\1.cpp/') && cp -vp $@ moc_$${destFile}
+
+
+# .moc.cpp :
+#
+# 	@echo "Target     = $@"
+# 	@echo "Dependency = $<"
+# 	destFile=$$(echo $@ | sed 's/^\(.*\)\.moc$$/\1.cpp/') && cp -vp $@ moc_$${destFile}	
