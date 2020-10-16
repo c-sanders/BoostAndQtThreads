@@ -24,7 +24,31 @@ AC_INIT(
 
 AC_CONFIG_AUX_DIR([build-aux])
 
-AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+# For more information about the AM_INIT_AUTOMAKE macro, and the options which can be passed to it,
+# refer to;
+#
+#   https://www.gnu.org/software/automake/manual/html_node/List-of-Automake-options.html
+#
+#   https://www.gnu.org/software/automake/manual/html_node/automake-Invocation.html#automake-Invocation
+#
+# Example of a strict invocation;
+#
+#   AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+#
+#   1.15    : The minimum version number of the instance of Automake which should be used on this
+#             package.
+#   foreign : Set the Automake mode to 'foreign'. This will eliminate the need for the project to
+#             contain certain files (e.g. AUTHORS, ChangeLog, COPYING, NEWS, README, etc).
+#   -Wall   : Display all warnings.
+#   -Werror : Treat any warnings as errors.
+
+
+# AM_INIT_AUTOMAKE([-Wno-portability])
+
+AM_INIT_AUTOMAKE([
+	1.15
+	foreign
+	-Wall])
 
 # The invocation of LT_INIT below, means that AC_PROG_RANLIB does not need to be
 # invoked, as might be suggested by autoscan.
@@ -71,7 +95,7 @@ AX_BOOST_BASE(
 	[AC_MSG_ERROR(["Did not find Boost libraries - Doh"])])
 
 
-# AX_HAVE_QT()
+AX_HAVE_QT()
 
 # Generate the necessary files.
 # -----------------------------
