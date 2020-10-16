@@ -16,8 +16,8 @@ The main aim of this package is to attempt to illustrate the following concepts;
 Configuring the package.
 ------------------------
 
-Before this package is configured by the user, they must ensure that the directory which contains the Qt package `bin` sub-directory, is present within their
-`PATH` environment variable. The reason for this is because this package's `configure.ac` script uses the Autoconf macro `AX_HAVE_QT`. This macro in turn,
+Before this package is configured by the user, they must first ensure that the directory which contains the Qt package `bin` sub-directory, is present within their
+`PATH` environment variable. The reason for this, is because this package's `configure.ac` script uses the Autoconf macro `AX_HAVE_QT`. This macro in turn,
 will go looking for the `qmake` command line utility - which generally speaking, resides within the `bin` sub-directory.
 
 
