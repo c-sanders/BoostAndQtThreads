@@ -13,6 +13,14 @@ The main aim of this package is to attempt to illustrate the following concepts;
   - How to implement a new class which subclasses from a Qt class.
 
 
+Configuring the package.
+------------------------
+
+Before this package is configured by the user, they must ensure that the directory which contains the Qt package `bin` sub-directory, is present within their
+`PATH` environment variable. The reason for this is because this package's `configure.ac` script uses the Autoconf macro `AX_HAVE_QT`. This macro in turn,
+will go looking for the `qmake` command line utility - which generally speaking, resides within the `bin` sub-directory.
+
+
 How to write a Makefile rule which is capable of building Qt moc files.
 -----------------------------------------------------------------------
 
@@ -142,9 +150,9 @@ Therefore, couldn't the suffix rule from above be replaced with a pattern rule s
 
 	%.hpp : moc_%.cpp
 	
-		@echo "Makefile   : ./src/moc/Makefile"
-		@echo "Target     = $@"
-		@echo "prerequisite = $<"
+		@echo "Makefile     : ./src/moc/Makefile"
+		@echo "Target       = $@"
+		@echo "Prerequisite = $<"
 		${MOC} ${boost_and_qt_threads_INCLUDES} $< -o $@
 
 As can be seen, this rule is both shorter and simpler. Furthermore, it doesn't need to copy the resulting file. This pattern rule will work, however the
@@ -160,8 +168,11 @@ rule while processing a `Makefile.am`. In response to seeing one, the Autotools 
 
 + Configuring a GNU Autotools project to use pattern rules.
 
-It was stated above that the GNU Autotools might generate a message similar to this. The word 'might' is used, because it depends upon how the `AM_INIT_AUTOMAKE` macro is invoked
-from within a GNU Autotools project's `configure.ac` file. If it is invoked as follows, then the GNU Autotools should generate the warning/error message shown above.
+It was stated above that the GNU Autotools might generate a message similar to this. The word 'might' is used, because it depends upon how the `AM_INIT_AUTOMAKE`
+macro is invoked from within a GNU Autotools project's `configure.ac` file. If it is invoked as follows, then the GNU Autotools should generate the warning/error
+message shown above.
 
 	AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+
+
 
