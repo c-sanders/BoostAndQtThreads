@@ -16,8 +16,16 @@ The main aim of this package is to attempt to illustrate the following concepts;
 Configuring the package.
 ------------------------
 
+This packge should be configured using the `configure` script that comes with it. At the time this script in invoked, the directory which the
+Qt moc command line utility resides in, must be present within the `PATH` environment variable. If the user who is executing the `configure` script
+doesn't want to alter their `PATH` environment variable proper, then they should pass an altered version of it in the command which is used to execute
+the `configure` script. This altered version should contain the directory which the Qt moc command line utility resides in. An example command, showing
+how to invoke the `configure` script, is shown below;
+
+	> ./configure --with-boost=/home/foo/local/boost_1_74_0 PATH=/home/foo/Qt-5.15.1/bin:${PATH}
+
 Before this package is configured by the user, they must first ensure that the directory which contains the Qt package `bin` sub-directory, is present within their
-`PATH` environment variable. The reason for this, is because this package's `configure.ac` script uses the Autoconf macro `AX_HAVE_QT`. This macro in turn,
+`PATH` environment variable. The reason for this, is because this package's `configure.ac` script makes use of the Autoconf macro `AX_HAVE_QT`. In turn, this macro
 will go looking for the `qmake` command line utility - which generally speaking, resides within the `bin` sub-directory.
 
 
