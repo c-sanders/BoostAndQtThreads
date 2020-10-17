@@ -21,7 +21,9 @@ Configuring the package.
 This packge should be configured using the `configure` script that comes with it. One of the many configuration tasks that this script performs,
 is to check for a valid installation of version 5 of the Qt library. It accomplishes this task by invoking a GNU Autoconf macro called `AX_HAVE_QT`. When invoked, this
 macro will search for an instance of the Qt make command line utility called `qmake`. Usually, this utility is installed within the `bin` sub-directory of
-the directory in which the Qt library is installed.
+the directory in which the Qt library is installed. If this macro finds a valid installation of version 5 of the Qt library, then it creates a 
+variable called `QT_DIR`, the value of which will be set to the name of the directory in which the valid installation of version 5 of the Qt library is installed.
+Keep this `QT_DIR` variable in mind, as it will be mentioned again in the next setion.
 
 + Invoking the configure script.
 
@@ -32,6 +34,14 @@ how to invoke the `configure` script, is shown below. It should be noted this co
 resides in, isn't already listed within the user's `PATH` environment variable.
 
 	> ./configure --with-boost=/home/foo/local/boost_1_74_0 PATH=/home/foo/Qt-5.15.1/bin:${PATH}
+
+A user should not try and circumvent the `AX_HAVE_QT` macro by passing a value of `QT_DIR` in the previous command, instead of a value of `PATH`. That is, the
+following command will not work;
+
+	> ./configure --with-boost=/home/foo/local/boost_1_74_0 QT_DIR=/home/foo/Qt-5.15.1
+
+The `AX_HAVE_QT` needs to discover where the Qt library is installed and then set the `QT_DIR` variable accordingly; a user of the `configure` script cannot
+circumvent this process by trying to set this variable themselves.
 
 
 How to write a Makefile rule which is capable of building Qt moc files.
