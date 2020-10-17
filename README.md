@@ -20,7 +20,8 @@ This packge should be configured using the `configure` script that comes with it
 Qt moc command line utility resides in, must be present within the `PATH` environment variable. If the user who is executing the `configure` script
 doesn't want to alter their `PATH` environment variable proper, then they should pass an altered version of it in the command which is used to execute
 the `configure` script. This altered version should contain the directory which the Qt moc command line utility resides in. An example command, showing
-how to invoke the `configure` script, is shown below;
+how to invoke the `configure` script, is shown below. It should be noted this command assumes that the directory which the Qt moc command line utility
+resides in, isn't already listed within the user's `PATH` environment variable.
 
 	> ./configure --with-boost=/home/foo/local/boost_1_74_0 PATH=/home/foo/Qt-5.15.1/bin:${PATH}
 
