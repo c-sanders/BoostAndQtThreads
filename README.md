@@ -18,8 +18,8 @@ Configuring the package.
 
 + The configure script.
 
-This packge should be configured using the `configure` script that comes with it. One of the many configuration tasks that this `configure` script performs,
-is to check for a valid installation of version 5 of the Qt library. It accomplishes this task by invoking an GNU Autoconf macro called `AX_HAVE_QT`. When invoked, this
+This packge should be configured using the `configure` script that comes with it. One of the many configuration tasks that this script performs,
+is to check for a valid installation of version 5 of the Qt library. It accomplishes this task by invoking a GNU Autoconf macro called `AX_HAVE_QT`. When invoked, this
 macro will search for an instance of the Qt make command line utility called `qmake`. Usually, this utility is installed within the `bin` sub-directory of
 the directory in which the Qt library is installed.
 
