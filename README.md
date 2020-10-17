@@ -16,14 +16,14 @@ The main aim of this package is to attempt to illustrate the following concepts;
 Configuring the package.
 ------------------------
 
-+ The `configure` script.
++ The configure script.
 
 This packge should be configured using the `configure` script that comes with it. One of the many configuration tasks that this `configure` script performs,
 is to check for a valid installation of version 5 of the Qt library. It accomplishes this task by invoking an GNU Autoconf macro called `AX_HAVE_QT`. When invoked, this
 macro will search for an instance of the Qt make command line utility called `qmake`. Usually, this utility is installed within the `bin` sub-directory of
 the directory in which the Qt library is installed.
 
-+ Invoking the `configure` script.
++ Invoking the configure script.
 
 At the point in time the `configure` script in invoked, the directory which `qmake` resides in, must be present within the `PATH` environment variable.
 If the user who is executing the `configure` script doesn't want to alter their `PATH` environment variable from how it is set within their shell environment, then they should pass an altered version of it in the command which is used to execute
