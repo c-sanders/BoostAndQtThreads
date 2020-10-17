@@ -16,18 +16,18 @@ The main aim of this package is to attempt to illustrate the following concepts;
 Configuring the package.
 ------------------------
 
-This packge should be configured using the `configure` script that comes with it. At the time this script in invoked, the directory which the
-Qt moc command line utility resides in, must be present within the `PATH` environment variable. If the user who is executing the `configure` script
-doesn't want to alter their `PATH` environment variable proper, then they should pass an altered version of it in the command which is used to execute
+This packge should be configured using the `configure` script that comes with it. One of the many configuration tasks that this `configure` script performs,
+is to check for a valid installation of the Qt library. It accomplishes this task by invoking an GNU Autoconf macro called `AX_HAVE_QT`. When invoked, this
+macro will search for an instance of the Qt make command line utility called `qmake`. Usually, this utility is installed within the `bin` sub-directory of
+the directory in which the Qt library is installed.
+
+At the point in time the `configure` script in invoked, the directory which `qmake` resides in, must be present within the `PATH` environment variable.
+If the user who is executing the `configure` script doesn't want to alter their `PATH` environment variable from how it is set within their shell environment, then they should pass an altered version of it in the command which is used to execute
 the `configure` script. This altered version should contain the directory which the Qt moc command line utility resides in. An example command, showing
 how to invoke the `configure` script, is shown below. It should be noted this command assumes that the directory which the Qt moc command line utility
 resides in, isn't already listed within the user's `PATH` environment variable.
 
 	> ./configure --with-boost=/home/foo/local/boost_1_74_0 PATH=/home/foo/Qt-5.15.1/bin:${PATH}
-
-Before this package is configured by the user, they must first ensure that the directory which contains the Qt package `bin` sub-directory, is present within their
-`PATH` environment variable. The reason for this, is because this package's `configure.ac` script makes use of the Autoconf macro `AX_HAVE_QT`. In turn, this macro
-will go looking for the `qmake` command line utility - which generally speaking, resides within the `bin` sub-directory.
 
 
 How to write a Makefile rule which is capable of building Qt moc files.
