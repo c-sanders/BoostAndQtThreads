@@ -40,8 +40,8 @@ following command will not work;
 
 	> ./configure --with-boost=/home/foo/local/boost_1_74_0 QT_DIR=/home/foo/Qt-5.15.1
 
-The `AX_HAVE_QT` macro needs to discover where (if indeed anywhere), a valid installation of version 5 of the Qt library is installed and then set the `QT_DIR`
-variable accordingly. A user of the `configure` script cannot circumvent this process by trying to set this variable themselves.
+The `AX_HAVE_QT` macro needs to discover where (if indeed anywhere), a valid installation of version 5 of the Qt library is installed and then set the value of the `QT_DIR`
+variable accordingly - itself. A user of the `configure` script cannot circumvent this process by trying to set this variable themselves.
 
 
 How to write a Makefile rule which is capable of building Qt moc files.
