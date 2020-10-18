@@ -20,8 +20,9 @@ How to configure a package using its configure script.
 
 + The configure script.
 
-Before this package can be compiled and built, it first needs to be configured using the `configure` script that comes with it. This `configure` script should be
-located in the root level of the directory which the package has been installed into.
+Before this package can be compiled and built, it first needs to be configured. The task of configuring this package is most easily accomplished
+by running the the `configure` script that comes with it. This `configure` script is actually called `configure` and should be located in the root level of the
+directory which the package has been installed into.
 
 One of the many configuration tasks that this script performs,
 is to check for a valid installation of version 5 of the Qt library. It accomplishes this task by invoking a GNU Autoconf macro called `AX_HAVE_QT`. When invoked, this
