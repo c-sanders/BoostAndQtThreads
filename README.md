@@ -24,20 +24,20 @@ Before this package can be compiled and built, it first needs to be configured. 
 by running the the `configure` script that comes with it. This `configure` script is actually called `configure` and should be located in the root level of the
 directory which the package has been installed into.
 
-One of the many configuration tasks that this script performs,
-is to check for a valid installation of version 5 of the Qt library. It accomplishes this task by invoking a GNU Autoconf macro called `AX_HAVE_QT`. When invoked, this
-macro will search for an instance of the Qt make command line utility called `qmake`. Usually, this utility is installed within the `bin` sub-directory of
+Of the many configuration tasks that this script performs, one of them is to check for a valid installation of version 5 of the Qt library. It accomplishes
+this task by invoking a GNU Autoconf macro called `AX_HAVE_QT`. When invoked, this
+macro will search for an instance of the Qt make utility called `qmake`. Usually, this utility is installed within the `bin` sub-directory of
 the directory in which the Qt library is installed. If this macro finds a valid installation of version 5 of the Qt library, then it creates a 
-variable called `QT_DIR`, the value of which will be set to the name of the directory in which the valid installation of version 5 of the Qt library is installed.
+variable called `QT_DIR`, the value of which will be set to the name of the directory in which the valid installation of version 5 of the Qt library is located.
 Keep this `QT_DIR` variable in mind, as it will be mentioned again in the next setion.
 
 + Invoking the configure script.
 
-At the point in time the `configure` script in invoked, the directory which `qmake` resides in, must be present within the `PATH` environment variable.
+At the point in time the `configure` script in invoked, the directory which `qmake` resides in, must be present within a `PATH` environment variable.
 If the user who is executing the `configure` script doesn't want to alter their `PATH` environment variable from how it is set within their shell environment, then they should pass an altered version of it in the command which is used to execute
 the `configure` script. This altered version should contain the directory which the `qmake` utility resides in. An example command, showing
-how to invoke the `configure` script, is shown below. It should be noted this command assumes that the directory which the Qt moc command line utility
-resides in, isn't already listed within the user's `PATH` environment variable.
+how to invoke the `configure` script by passing an altered value of `PATH` to it, is shown below. It should be noted that this command assumes the directory
+which `qmake` resides in, isn't already listed within the user's `PATH` environment variable.
 
 	> ./configure --with-boost=/home/foo/local/boost_1_74_0 PATH=/home/foo/Qt-5.15.1/bin:${PATH}
 
@@ -46,8 +46,9 @@ following command will not work;
 
 	> ./configure --with-boost=/home/foo/local/boost_1_74_0 QT_DIR=/home/foo/Qt-5.15.1
 
-The `AX_HAVE_QT` macro needs to ascertain if and where, a valid installation of version 5 of the Qt library is installed. and then set the value of the `QT_DIR`
-variable accordingly - itself. A user of the `configure` script cannot circumvent this process by trying to set this variable themselves.
+The `AX_HAVE_QT` macro needs to ascertain if and where, a valid installation of version 5 of the Qt library is installed. If an installation is found, then the
+macro should set the value of the `QT_DIR` variable to the name of the directory within which the installation was found. A user of the `configure` script should not
+attempt to circumvent this process by trying to set this variable themselves.
 
 
 How to write a Makefile rule which is capable of building Qt moc files.
@@ -151,13 +152,14 @@ then raises the question of why these files aren't simply generated from a corre
 
 	TestClass.hpp --> moc_TestClass.cpp
 
-Taking into account what was stated earlier, we can see that make would ascertain that the prerequisite file for this target should be `moc_TestClass.hpp`.
+Taking into account what was stated earlier about suffix rules and the mechanism they use to ascertain the names of prerequisite files, we can see that `make` would
+ascertain that the prerequisite file for this target should be `moc_TestClass.hpp`.
 make would then go searching for a prerequisite file with this name, but would be unable to find it. This is one of the reasons why suffix rules were described earlier
 as not being all that powerful - or clever.
 
 + Can a pattern rule be used instead?
 
-This now raises the question of why a pattern rule can't be used instead. Afterall - and as was mentioned earlier, they are more powerful and more clever than sffix rules.
+This now raises another question of why a pattern rule couldn't be used instead. Afterall, they are more powerful and more clever than sffix rules.
 Therefore, couldn't the suffix rule from above be replaced with a pattern rule such as the following;
 
 	%.hpp : moc_%.cpp
@@ -170,7 +172,7 @@ Therefore, couldn't the suffix rule from above be replaced with a pattern rule s
 As can be seen, this rule is both shorter and simpler. Furthermore, it doesn't need to copy the resulting file. This pattern rule will work, however the
 GNU Autotools project which it is a part of, needs to be configured correctly so as to allow the project to use pattern rules.
 
-The previous paragraph implies that there is problem using pattern rules in GNU Autotools projects - and this is indeed the case. The problem with pattern rules is,
+The previous paragraph implies there is a possibility that there could be a problem using pattern rules in GNU Autotools projects - and this is indeed the case. The problem with pattern rules is,
 they are GNU extension to Makefiles, and as a consequence, the GNU Autotools (Automake in particular in this case), might complain when they come across a pattern
 rule while processing a `Makefile.am`. In response to seeing one, the Autotools might generate a message which is similar to the following;
 
