@@ -36,11 +36,13 @@ Keep this `QT_DIR` variable in mind, as it will be mentioned again in the next s
 At the point in time the `configure` script in invoked, the directory which `qmake` resides in, must be present within a `PATH` environment variable.
 If the user who is executing the `configure` script doesn't want to alter their `PATH` environment variable from how it is set within their shell environment, then they should pass an altered version of it in the command which is used to execute
 the `configure` script. This altered version should contain the directory which the `qmake` utility resides in. An example command, showing
-how to invoke the `configure` script by passing an altered value of `PATH` to it, is listed below. It should be noted that this command assumes the directory
-which `qmake` resides in, isn't already listed within the user's `PATH` environment variable. It should also be noted that the value of `PATH` which is set within
-the command, is in only effect while the command is being executed and that it does not effect the value of `PATH` which is set within the user's environment.
+how to invoke the `configure` script by passing an altered value of `PATH` to it, is listed below.
 
 	> ./configure --with-boost=/home/foo/local/boost_1_74_0 PATH=/home/foo/Qt-5.15.1/bin:${PATH}
+
+It should be noted that this command assumes the directory
+which `qmake` resides in, isn't already listed within the user's `PATH` environment variable. It should also be noted that the value of `PATH` which is set within
+the command, is in only effect while the command is being executed and that it does not effect the value of `PATH` which is set within the user's environment.
 
 A user should not try and circumvent the `AX_HAVE_QT` macro by passing a value of `QT_DIR` in the previous command, instead of a value of `PATH`. That is, the
 following command will not work;
