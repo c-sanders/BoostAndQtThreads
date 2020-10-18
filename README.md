@@ -6,6 +6,8 @@ Introduction
 
 The main aim of this package is to attempt to illustrate the following concepts;
 
+  - How to configure a package using its configure script.
+
   - How to write a Makefile rule which is capable of building Qt moc files.
 
   - How to create threads in C++ using both the Boost and Qt threading libraries.
@@ -13,12 +15,15 @@ The main aim of this package is to attempt to illustrate the following concepts;
   - How to implement a new class which subclasses from a Qt class.
 
 
-Configuring the package.
-------------------------
+How to configure a package using its configure script.
+------------------------------------------------------
 
 + The configure script.
 
-This packge should be configured using the `configure` script that comes with it. One of the many configuration tasks that this script performs,
+Before this package can be compiled and built, it first needs to be configured using the `configure` script that comes with it. This `configure` script should be
+located in the root level of the directory which the package has been installed into.
+
+One of the many configuration tasks that this script performs,
 is to check for a valid installation of version 5 of the Qt library. It accomplishes this task by invoking a GNU Autoconf macro called `AX_HAVE_QT`. When invoked, this
 macro will search for an instance of the Qt make command line utility called `qmake`. Usually, this utility is installed within the `bin` sub-directory of
 the directory in which the Qt library is installed. If this macro finds a valid installation of version 5 of the Qt library, then it creates a 
@@ -40,7 +45,7 @@ following command will not work;
 
 	> ./configure --with-boost=/home/foo/local/boost_1_74_0 QT_DIR=/home/foo/Qt-5.15.1
 
-The `AX_HAVE_QT` macro needs to discover where (if indeed anywhere), a valid installation of version 5 of the Qt library is installed and then set the value of the `QT_DIR`
+The `AX_HAVE_QT` macro needs to ascertain if and where, a valid installation of version 5 of the Qt library is installed. and then set the value of the `QT_DIR`
 variable accordingly - itself. A user of the `configure` script cannot circumvent this process by trying to set this variable themselves.
 
 
