@@ -34,7 +34,7 @@ Keep this `QT_DIR` variable in mind, as it will be mentioned again in the next s
 
 At the point in time the `configure` script in invoked, the directory which `qmake` resides in, must be present within the `PATH` environment variable.
 If the user who is executing the `configure` script doesn't want to alter their `PATH` environment variable from how it is set within their shell environment, then they should pass an altered version of it in the command which is used to execute
-the `configure` script. This altered version should contain the directory which the Qt moc command line utility resides in. An example command, showing
+the `configure` script. This altered version should contain the directory which the `qmake` utility resides in. An example command, showing
 how to invoke the `configure` script, is shown below. It should be noted this command assumes that the directory which the Qt moc command line utility
 resides in, isn't already listed within the user's `PATH` environment variable.
 
@@ -55,30 +55,12 @@ How to write a Makefile rule which is capable of building Qt moc files.
 An example of a Makefile rule which is capable of building Qt moc files, is contained within the GNU Automake Makefile `./src/Makefile.am`.
 The contents of this file are listed immediately below;
 
-	# Qt5 library
-	# ===========
-
-	QT5_INCLUDE_DIR = -I/usr/local/Qt-5.15.1/include/
-
-	QT5_LIB_DIR     = -L/usr/local/Qt-5.15.1/lib/
-
-	QT5_LIBS        = -lQt5Core -lQt5Gui -lQt5Widgets
-
-
 	# Miscellaneous
 	# =============
 
 	INCLUDE_DIRS    = -I${top_srcdir}/include ${QT5_INCLUDE_DIR}
 
 	MOC_FILES       = TestClass.moc
-
-
-	# Utilities
-	# =========
-
-	# The location of the Qt Meta Object Compiler (moc) which should be used to build the moc files.
-
-	MOC = /usr/local/Qt-5.15.1/bin/moc
 
 
 	# Search paths
@@ -116,11 +98,12 @@ The contents of this file are listed immediately below;
 		@echo "top_srcdir           = ${top_srcdir}"
 		@echo "builddir             = ${builddir}"
 
+
 The .hpp.moc suffix rule.
 -------------------------
 
-The Makefile rule which is capable of building Qt moc files, is implemented as a suffix rule, and can be found in the section of the Makefile which is titled
-"Suffix rules".
+One way to implement a Makefile rule which is capable of building Qt moc files, is to implement it as a suffix rule. An example of such a suffix rule
+can be found in the section of the Makefile which is titled "Suffix rules".
 
 	.hpp.moc :
 
